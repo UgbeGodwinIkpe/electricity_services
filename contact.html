@@ -28,6 +28,18 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+        <script type="text/javascript">
+    
+        (function() {
+            // https://dashboard.emailjs.com/admin/account
+            emailjs.init({
+              publicKey: "lBxhnhfSsm5TJbbad",
+            });
+        })();
+        
+    </script>
     </head>
 
     <body>
@@ -224,47 +236,47 @@
                     <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.4s">
                         <div>
                             <p class="display-4 text-primary mb-2 text-center">Send A Direct Message</p>
-                            <form>
+                            <form id="sendmsg" method="post">
                                 <div class="row g-4">
-                                    <div class="col-lg-12 col-xl-6">
+                                    <div class="col-lg-12 col-xl-12">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control border-0" id="name" placeholder="Your Name">
+                                            <input type="text" class="form-control border-0" id="name" name="name" placeholder="Your Name" required>
                                             <label for="name">Your Name</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-xl-6">
                                         <div class="form-floating">
-                                            <input type="email" class="form-control border-0" id="email" placeholder="Your Email">
+                                            <input type="email" class="form-control border-0" id="email" name="email" placeholder="Your Email" required>
                                             <label for="email">Your Email</label>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-xl-6">
                                         <div class="form-floating">
-                                            <input type="phone" class="form-control border-0" id="phone" placeholder="Phone">
+                                            <input type="phone" class="form-control border-0" id="phone" name="phone" placeholder="Phone" required>
                                             <label for="phone">Your Phone</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12 col-xl-6">
+                                    <!-- <div class="col-lg-12 col-xl-6">
                                         <div class="form-floating">
                                             <input type="text" class="form-control border-0" id="project" placeholder="Project">
                                             <label for="project">Your Project</label>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-12">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control border-0" id="subject" placeholder="Subject">
+                                            <input type="text" class="form-control border-0" id="subject" name="subject" placeholder="Subject" required>
                                             <label for="subject">Subject</label>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-floating">
-                                            <textarea class="form-control border-0" placeholder="Leave a message here" id="message" style="height: 125px"></textarea>
+                                            <textarea class="form-control border-0" placeholder="Leave a message here" id="message" name="message" style="height: 125px" required></textarea>
                                             <label for="message">Message</label>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="flexCheck">
+                                            <input class="form-check-input" type="checkbox" value="" id="flexCheck" required>
                                             <label class="form-check-label" for="flexCheck">I agree with the site privacy policy</label>
                                           </div>
                                     </div>
@@ -379,7 +391,30 @@
 
         <!-- Back to Top -->
         <a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>   
-
+        <script>
+            window.onload = function() {
+            document.getElementById('sendmsg').addEventListener('submit', function(event) {
+                event.preventDefault();
+                console.log(this)
+                // these IDs from the previous steps
+                emailjs.sendForm('service_ysbb4o5', 'template_cykl9nh', this)
+                    .then(() => {
+                        console.log('SUCCESS!');
+                        Swal.fire({
+                            title: "Success",
+                            text: "Message has been sent. Thank you for contacting us.",
+                            icon: "success"
+                            });
+                    }, (error) => {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Something went wrong. Try again later.",
+                            icon: "error"
+                            });
+                    });
+            });
+        }
+        </script>
         
         <!-- JavaScript Libraries -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
